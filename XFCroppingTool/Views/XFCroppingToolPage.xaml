@@ -6,7 +6,7 @@
 	x:Class="XFCroppingTool.XFCroppingToolPage">
 	<StackLayout HorizontalOptions="FillAndExpand" 
 				 VerticalOptions="FillAndExpand"  
-				 Padding="10" 
+				 Padding="10,20,10,10" 
 				 Spacing="10">
 				 <Button Text="Take a Picture To Crop" Command="{Binding TakePictureCommand}"/>
 				 <Button Text="Choose Image from Gallery" Command="{Binding ImageFromGalleryCommand}" />
@@ -19,8 +19,13 @@
 							  CropRect="{Binding CropRect, Mode=TwoWay}"
 			/>
 			</Frame>
+			<Button Text="Crop Image" Command="{Binding CropImageCommand}"/>
+			<Frame>
+				<Image Source="{Binding CroppedImage}"
+				WidthRequest="150" HeightRequest="150"/>
+			</Frame>
 
-			<Button Text="Crop Image"/>
+
 		</StackLayout>
 	</StackLayout>
 </ContentPage>

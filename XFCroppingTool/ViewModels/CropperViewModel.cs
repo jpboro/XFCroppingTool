@@ -3,9 +3,11 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Acr.UserDialogs;
 using Plugin.Media;
 using Plugin.Media.Abstractions;
 using Xamarin.Forms;
+using XFCroppingTool.Interfaces;
 
 namespace XFCroppingTool
 {
@@ -24,6 +26,20 @@ namespace XFCroppingTool
 				OnPropertyChanged();
 			}
 				}
+
+		private ImageSource croppedImage;
+		public ImageSource CroppedImage
+		{ 
+			get 
+			{
+				return this.croppedImage;
+			}
+			set
+			{
+				this.croppedImage = value;
+				OnPropertyChanged();
+			}
+		}
 
 		private Rectangle cropRect;
 
@@ -91,8 +107,8 @@ namespace XFCroppingTool
 		public ICommand TakePictureCommand => new Command(async
 														  () => await TakePicture());
 
-		//public ICommand CropImageCommand => new Command(async
-		//												  () => await CropImage());
+		public ICommand CropImageCommand => new Command(async
+														  () => await CropImage());
 
 			private async Task GetImageFromGallery()
 			{
@@ -159,6 +175,25 @@ namespace XFCroppingTool
 				}
 					}
 
+		private async Task CropImage()
+		{
+			using (UserDialogs.Instance.Loading("Extracting Image"))
+			{
+
+				using (var stream = photo.GetStream())
+				{
+
+					var croppedImageSource = DependencyService.Get<IImageCropper>().CropImage(ImgSource, CropRect, new Size(200, 200));
+
+					if (croppedImageSource == null)
+					{
+						return;
+					}
+
+					CroppedImage = croppedImageSource;
+				}
+			}
+		}
 		public event PropertyChangedEventHandler PropertyChanged;
 
 		void OnPropertyChanged([CallerMemberName] string name="")
