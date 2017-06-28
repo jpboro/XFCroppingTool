@@ -7,6 +7,7 @@ namespace XFCroppingTool
         public XFCroppingToolPage()
         {
             InitializeComponent();
+			this.BindingContext = new CropperViewModel();
         }
     }
 }

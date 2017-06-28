@@ -2,15 +2,22 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
 	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
 	xmlns:local="clr-namespace:XFCroppingTool" 
+	xmlns:ctrl="clr-namespace:XFCroppingTool.CustomControls"
 	x:Class="XFCroppingTool.XFCroppingToolPage">
 	<StackLayout HorizontalOptions="FillAndExpand" 
 				 VerticalOptions="FillAndExpand"  
 				 Padding="10" 
 				 Spacing="10">
-				 <Button Text="Take a Picture To Crop"/>
-				 <Button Text="Choose Image from Gallery" />
+				 <Button Text="Take a Picture To Crop" Command="{Binding TakePictureCommand}"/>
+				 <Button Text="Choose Image from Gallery" Command="{Binding ImageFromGalleryCommand}" />
 		<StackLayout Padding="5,10,5,5">
 			<Frame>
+				<ctrl:Cropper x:Name="CameraImage"
+     						  HorizontalOptions="Center" 
+							  WidthRequest="250" HeightRequest="250" 
+							  Source="{Binding ImgSource}" 
+							  CropRect="{Binding CropRect, Mode=TwoWay}"
+			/>
 			</Frame>
 
 			<Button Text="Crop Image"/>
